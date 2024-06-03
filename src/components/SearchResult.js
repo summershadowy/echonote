@@ -7,11 +7,19 @@ const { Title, Text } = Typography;
 const SearchResult = ({ title, content, query }) => {
   const saveAsImage = () => {
     const element = document.getElementById(`note-${title}`);
-    html2canvas(element).then((canvas) => {
+    const clonedElement = element.cloneNode(true);
+    clonedElement.style.width = '800px';
+    clonedElement.style.height = '600px';
+    clonedElement.style.padding = '20px';
+    clonedElement.style.boxSizing = 'border-box';
+    document.body.appendChild(clonedElement);
+
+    html2canvas(clonedElement).then((canvas) => {
       const link = document.createElement('a');
       link.download = `${title}.png`;
       link.href = canvas.toDataURL();
       link.click();
+      document.body.removeChild(clonedElement);
     });
   };
 
