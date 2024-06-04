@@ -1,0 +1,113 @@
+/* SearchPage.css */
+.search-container {
+  padding: 24px;
+  text-align: center;
+}
+
+.search-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #0EB4D3; /* 主题色 */
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  max-width: 600px;
+  margin: 20px auto 0; /* 在顶部添加 20px 的间隙 */
+}
+
+/* SearchPage.css */
+.search-input {
+  width: 100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  border: 1px solid #ddd !important; /* 默认边框颜色 */
+}
+
+.search-input:hover,
+.search-input:focus {
+  border-color: #0EB4D3 !important; /* 主题色 */
+}
+
+.search-input:focus {
+  box-shadow: none !important; /* 移除 box-shadow 属性 */
+}
+
+.search-input-icon {
+  color: #0EB4D3; /* 主题色 */
+}
+
+.search-button {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  background-color: #0EB4D3;
+  border-color: #0EB4D3;
+}
+
+.search-button:hover, .search-button:focus {
+  background-color: #0CA1B9;
+  border-color: #0CA1B9;
+}
+
+.search-tags-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.search-tags {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 800px; /* 限制标签区域最大宽度 */
+}
+
+.search-tags .ant-tag {
+  cursor: pointer; /* 使标签看起来是可点击的 */
+  border: 1px solid #0EB4D3; /* 主题色边框 */
+  padding: 8px 16px;
+  margin: 8px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  flex: 0 1 auto; /* 确保标签宽度随内容变化 */
+}
+
+.results-container {
+  margin-top: 40px;
+}
+
+.result-card {
+  margin-bottom: 24px;
+  border: 1px solid #0EB4D3; /* 主题色边框 */
+  border-radius: 8px;
+  padding: 16px;
+  text-align: left;
+}
+
+.result-card-icon {
+  font-size: 24px;
+  color: #0EB4D3; /* 主题色 */
+  margin-bottom: 8px;
+}
+
+.result-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.result-card-date {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 8px;
+}
+
+.result-card-content {
+  font-size: 14px;
+  color: #333;
+}
