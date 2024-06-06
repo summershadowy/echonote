@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Input, Button, Typography, Tag, Card, Row, Col } from 'antd';
 import { BulbOutlined } from '@ant-design/icons';
-import { SearchOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'; // 导入 useNavigate
 import './SearchPage.css';
 
 const { Title, Text } = Typography;
@@ -9,15 +9,14 @@ const { Title, Text } = Typography;
 const SearchPage = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
+  const navigate = useNavigate(); // 使用 useNavigate 钩子
 
   const handleSearch = (value) => {
-    // 模拟搜索结果，每次搜索返回三个包含当前搜索内容的结果
     const sampleResults = [
-      { id: 1, title: value, content: `这是搜索结果内容 1：${value}`, date: new Date().toLocaleDateString() },
-      { id: 2, title: value, content: `这是搜索结果内容 2：${value}`, date: new Date().toLocaleDateString() },
-      { id: 3, title: value, content: `这是搜索结果内容 3：${value}`, date: new Date().toLocaleDateString() }
+      { id: 1, title: value, content: `这是真实搜索结果内容 1：${value}`, date: new Date().toLocaleDateString() },
+      { id: 2, title: value, content: `这是真实搜索结果内容 2：${value}`, date: new Date().toLocaleDateString() },
+      { id: 3, title: value, content: `这是真实搜索结果内容 3：${value}`, date: new Date().toLocaleDateString() }
     ];
-    // 设置新的搜索结果
     setResults(sampleResults);
   };
 
@@ -25,16 +24,26 @@ const SearchPage = () => {
     setQuery(value);
   };
 
+  const handleLogin = () => {
+    // 模拟登录成功
+    setTimeout(() => {
+      // 登录成功后跳转到 RealSearchResult 页面
+      navigate('/real-search');
+    }, 1000); // 模拟网络延迟
+  };
+
   return (
     <div className="search-container">
-      <div className="section">
+      <div className="header">
         <Title className="search-title">锦囊妙记 Note Echo</Title>
+        <Button type="primary" className="login-button" onClick={handleLogin}>登录</Button>
+      </div>
+      <div className="section">
         <Title className="section-title">随手记</Title>
         <Text>想问问题？上传笔记库，问问过去的自己</Text>
         <div className="search-bar">
           <Input
-            prefix= <SearchOutlined className="search-input-icon"/> 
-            placeholder="输一个问题试试吧"
+            placeholder="输入搜索内容"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onPressEnter={() => handleSearch(query)}

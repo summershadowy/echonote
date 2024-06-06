@@ -2,13 +2,31 @@
 .search-container {
   padding: 24px;
   text-align: center;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .search-title {
   font-size: 36px;
   font-weight: bold;
-  margin-bottom: 24px;
   color: #0EB4D3; /* 主题色 */
+}
+
+.login-button {
+  background-color: #0EB4D3; /* 主题色 */
+  border-color: #0EB4D3;
+  border-radius: 8px;
+}
+
+.login-button:hover, .login-button:focus {
+  background-color: #0CA1B9;
+  border-color: #0CA1B9;
 }
 
 .search-bar {
@@ -20,25 +38,16 @@
   margin: 20px auto 0; /* 在顶部添加 20px 的间隙 */
 }
 
-/* SearchPage.css */
 .search-input {
   width: 100%;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  border: 1px solid #ddd !important; /* 默认边框颜色 */
+  border-right: none;
 }
 
-.search-input:hover,
 .search-input:focus {
   border-color: #0EB4D3 !important; /* 主题色 */
-}
-
-.search-input:focus {
-  box-shadow: none !important; /* 移除 box-shadow 属性 */
-}
-
-.search-input-icon {
-  color: #0EB4D3; /* 主题色 */
+  box-shadow: 0 0 0 2px rgba(14, 180, 211, 0.2) !important; /* 主题色 */
 }
 
 .search-button {
@@ -68,12 +77,12 @@
 }
 
 .search-tags .ant-tag {
+  border-radius: 8px;
   cursor: pointer; /* 使标签看起来是可点击的 */
+  background-color: #ffffff;
   border: 1px solid #0EB4D3; /* 主题色边框 */
   padding: 8px 16px;
   margin: 8px;
-  border-radius: 8px;
-  background-color: #ffffff;
   flex: 0 1 auto; /* 确保标签宽度随内容变化 */
 }
 
