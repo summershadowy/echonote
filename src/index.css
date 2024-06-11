@@ -1,12 +1,28 @@
-/* src/index.css */
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  }
-  
+/* 确保导航栏选中项和悬停项的颜色为主题色 */
+.ant-menu-horizontal > .ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-item-active,
+.ant-menu-horizontal > .ant-menu-submenu:hover,
+.ant-menu-horizontal > .ant-menu-item-selected a,
+.ant-menu-horizontal > .ant-menu-item:hover a,
+.ant-menu-horizontal > .ant-menu-item-active a,
+.ant-menu-horizontal > .ant-menu-submenu:hover a {
+  color: #0EB4D3 !important; /* 主题色 */
+}
+
+/* 确保导航栏选中项没有下划线 */
+.ant-menu-horizontal > .ant-menu-item::after {
+  border-bottom: none; /* 默认情况下没有下划线 */
+  content: '';
+  display: block;
+  margin: 0 auto;
+  transition: border-color 0.3s;
+  width: 100%;
+}
+
+/* 确保导航栏悬停项显示下划线，且下划线颜色为主题色 */
+.ant-menu-horizontal > .ant-menu-item:hover::after,
+.ant-menu-horizontal > .ant-menu-item-active::after,
+.ant-menu-horizontal > .ant-menu-submenu:hover::after {
+  border-bottom: 2px solid #0EB4D3 !important; /* 主题色 */
+}

@@ -3,6 +3,7 @@
   padding: 24px;
   text-align: center;
   position: relative;
+  background-color: #fff;
 }
 
 .header {
@@ -10,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background-color: #fff;
 }
 
 .search-title {

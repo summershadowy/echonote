@@ -1,0 +1,29 @@
+/* NotesLibraryPage.css */
+.notes-library-container {
+  padding: 24px;
+  text-align: left;
+  background-color: #f5f5f5;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  color: #0EB4D3; /* 主题色 */
+}
+
+.filter-container {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.note-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.ant-btn-link {
+  color: #0EB4D3 !important;
+}
