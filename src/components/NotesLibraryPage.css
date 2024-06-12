@@ -10,20 +10,21 @@
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 24px;
-  color: #0EB4D3; /* 主题色 */
-  border-radius: 8px; /* 圆角设置 */
+
 }
 
 .filter-container {
   margin-bottom: 24px;
   display: flex;
   align-items: center;
+  color: #0EB4D3; /* 主题色 */
   border-radius: 8px; /* 圆角设置 */
 }
 
 .note-actions {
   margin-top: 16px;
   display: flex;
+  color: #0EB4D3; /* 主题色 */
   justify-content: space-between;
   border-radius: 8px; /* 圆角设置 */
 }
@@ -31,4 +32,11 @@
 .ant-btn-link {
   color: #0EB4D3 !important;
   border-radius: 8px; /* 圆角设置 */
+}
+.search-new-input:hover,.search-new-input:focus::after {
+  border-color: #0EB4D3 !important; /* 主题色 */
+}
+
+.date-picker-input:hover,.date-picker-input-:hover::after{
+  border-color: #0EB4D3 !important;
 }

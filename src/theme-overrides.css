@@ -1,0 +1,24 @@
+/* index.css 或 App.css */
+
+
+/* 覆盖日期选择器的下划线颜色 */
+.ant-date-picker:focus, .ant-date-picker-focused {
+  border-color: #0EB4D3 !important;
+  border-bottom: 2px solid #0EB4D3 !important; /* 主题色下划线 */
+}
+
+/* 覆盖日期选择器的默认蓝色 */
+.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-range-end .ant-picker-cell-inner,
+.ant-picker-cell-in-range .ant-picker-cell-inner,
+.ant-picker-cell-today .ant-picker-cell-inner {
+  background: #0EB4D3 !important; /* 主题色背景 */
+  color: #fff !important; /* 选中日期的文本颜色 */
+}
+
+/* 覆盖日期选择器悬停效果 */
+.ant-picker-cell-inner:hover {
+  background: #0CA1B9 !important; /* 主题色悬停背景 */
+  color: #fff !important; /* 悬停日期的文本颜色 */
+}

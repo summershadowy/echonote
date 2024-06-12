@@ -69,14 +69,16 @@ const NotesLibraryPage = () => {
           placeholder="搜索关键词"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{ width: 200, marginRight: 16 }}
+                  style={{ width: 200, marginRight: 16, borderRadius: 8 }}
+                  className="search-new-input"
         />
         <RangePicker
           value={dateRange}
           onChange={(dates) => setDateRange(dates)}
-          style={{ marginRight: 16 }}
+                  style={{ marginRight: 16, borderRadius: 8 }}
+                  className="date-picker-input"
         />
-        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+              <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch} className="login-button" >
           搜索
         </Button>
       </div>

@@ -42,14 +42,14 @@
 
 .search-input {
   width: 100%;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px; /* 圆角设置 */
+  border-bottom-left-radius: 8px; /* 圆角设置 */
   border-right: none;
 }
 
-.search-input:focus {
+.search-input:hover,.search-input:focus {
   border-color: #0EB4D3 !important; /* 主题色 */
-  box-shadow: 0 0 0 2px rgba(14, 180, 211, 0.2) !important; /* 主题色 */
+
 }
 
 .search-button {
@@ -122,3 +122,11 @@
   font-size: 14px;
   color: #333;
 }
+.section {
+  margin-top: 20px;
+}
+
+.section-title {
+  margin-bottom: 16px;
+}
+

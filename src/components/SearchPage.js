@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'; // 导入 useNavigate
 import './SearchPage.css';
 
 const { Title, Text } = Typography;
+const { Search } = Input;
 
 const SearchPage = () => {
   const [query, setQuery] = useState('');
@@ -22,6 +23,7 @@ const SearchPage = () => {
 
   const handleTagClick = (value) => {
     setQuery(value);
+    handleSearch(value);
   };
 
   const handleLogin = () => {
@@ -42,14 +44,15 @@ const SearchPage = () => {
         <Title className="section-title">随手记</Title>
         <Text>想问问题？上传笔记库，问问过去的自己</Text>
         <div className="search-bar">
-          <Input
-            placeholder="输入搜索内容"
+          <Search
+            placeholder="输入你想问的问题"
+            enterButton="搜索"
+            size="middle"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onPressEnter={() => handleSearch(query)}
-            className="search-input"
+            onSearch={handleSearch}
+            style={{ maxWidth: '400px', margin: '0 auto' }}
           />
-          <Button type="primary" className="search-button" onClick={() => handleSearch(query)}>搜索</Button>
         </div>
         <div className="search-tags-wrapper">
           <div className="search-tags">

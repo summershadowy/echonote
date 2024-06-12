@@ -1,29 +1,112 @@
-/* NotesLibraryPage.css */
-.notes-library-container {
+/* RealSearchPage.css */
+.real-search-container {
   padding: 24px;
-  text-align: left;
+  text-align: center;
   background-color: #f5f5f5;
 }
 
-.page-title {
+.search-title {
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 24px;
   color: #0EB4D3; /* 主题色 */
 }
 
-.filter-container {
-  margin-bottom: 24px;
+.search-bar {
   display: flex;
+  justify-content: center;
   align-items: center;
+  width: 60%;
+  max-width: 600px;
+  margin: 20px auto;
 }
 
-.note-actions {
-  margin-top: 16px;
+
+.search-button {
+  border-top-right-radius: 8px; /* 圆角设置 */
+  border-bottom-right-radius: 8px; /* 圆角设置 */
+  background-color: #0EB4D3;
+  border-color: #0EB4D3;
+  color: #0EB4D3; /* 主题色 */
+}
+
+.search-button:hover, .search-button:focus {
+  background-color: #0CA1B9;
+  border-color: #0CA1B9;
+}
+
+.results-container {
+  margin-top: 40px;
+}
+
+.result-card {
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px; /* 圆角设置 */
+  margin-bottom: 16px;
+  padding: 16px;
   display: flex;
+  align-items: flex-start;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* 添加 position 属性以便放置绝对定位元素 */
+}
+
+.result-card-icon {
+  font-size: 24px;
+  color: #0EB4D3; /* 主题色 */
+  margin-right: 16px;
+}
+
+.result-card-content {
+  text-align: left;
+  flex: 1; /* 使内容部分占据剩余空间 */
+}
+
+.result-card-title {
+  margin-bottom: 8px;
+}
+
+.result-card-date {
+  display: block;
+  margin-bottom: 8px;
+  color: #999;
+}
+
+.result-card-text {
+  color: #333;
+}
+
+.result-card-source {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
   justify-content: space-between;
 }
 
-.ant-btn-link {
-  color: #0EB4D3 !important;
+.result-card-logo {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  display: inline-block;
+  vertical-align: middle; /* 确保与文字垂直对齐 */
+}
+
+.result-card-source-text {
+  font-size: 14px;
+  color: #999;
+  display: inline-block;
+  vertical-align: middle; /* 确保与 logo 垂直对齐 */
+}
+
+.result-card-content, .result-card-source {
+  text-align: left; /* 确保左对齐 */
+}
+
+.result-card-download {
+  font-size: 24px;
+  color: #0EB4D3; /* 主题色 */
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
 }

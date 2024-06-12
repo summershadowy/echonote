@@ -1,11 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
+import 'antd/dist/antd.less'; // 使用 less 文件
 import SearchPage from './components/SearchPage';
 import RealSearchPage from './components/RealSearchPage';
 import ReadArticlePage from './components/ReadArticlePage';
 import NotesLibraryPage from './components/NotesLibraryPage';
-import './App.css'; // 确保导入了 CSS 文件
+import './theme-overrides.css'; // 引入覆盖样式
 
 const { Header, Content } = Layout;
 
