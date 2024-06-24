@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Card, Button, List, Typography, Modal, message, Input, DatePicker } from 'antd';
 import { DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import HighlightComponent from './HighlightComponent';
 import './NotesLibraryPage.css';
 
 const { Title, Text } = Typography;
@@ -69,16 +70,16 @@ const NotesLibraryPage = () => {
           placeholder="搜索关键词"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ width: 200, marginRight: 16, borderRadius: 8 }}
-                  className="search-new-input"
+          style={{ width: 200, marginRight: 16, borderRadius: 8 }}
+          className="search-new-input"
         />
         <RangePicker
           value={dateRange}
           onChange={(dates) => setDateRange(dates)}
-                  style={{ marginRight: 16, borderRadius: 8 }}
-                  className="date-picker-input"
+          style={{ marginRight: 16, borderRadius: 8 }}
+          className="date-picker-input"
         />
-              <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch} className="login-button" >
+        <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch} className="login-button">
           搜索
         </Button>
       </div>
@@ -109,6 +110,7 @@ const NotesLibraryPage = () => {
           <a href={viewingNote.url} target="_blank" rel="noopener noreferrer">查看原文</a>
         </Modal>
       )}
+      <HighlightComponent notes={notes} setNotes={setNotes} />
     </div>
   );
 };

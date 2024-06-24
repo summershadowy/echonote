@@ -6,7 +6,11 @@ import SearchPage from './components/SearchPage';
 import RealSearchPage from './components/RealSearchPage';
 import ReadArticlePage from './components/ReadArticlePage';
 import NotesLibraryPage from './components/NotesLibraryPage';
+import HighlightComponent from './components/HighlightComponent';
+
 import './theme-overrides.css'; // 引入覆盖样式
+
+
 
 const { Header, Content } = Layout;
 
@@ -26,6 +30,7 @@ function App() {
         </Header>
         <Content style={{ padding: '0 50px', background: '#fff' }}>
           <div className="site-layout-content">
+            <HighlightComponent /> {/* 在所有页面上启用划线功能 */}
             <Routes>
               <Route path="/real-search" element={<RealSearchPage />} />
               <Route path="/read-article" element={<ReadArticlePage />} />

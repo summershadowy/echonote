@@ -16,3 +16,24 @@
   border-bottom: 2px solid #0EB4D3 !important; /* 主题色下划线 */
 }
 
+/* index.css */
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.layout {
+  min-height: 100vh;
+}
+
+.site-layout-content {
+  padding: 24px;
+  background: #fff;
+}
+
+a {
+  color: #0EB4D3;
+}
+
+a:hover {
+  color: #0EB4D3;
+}
