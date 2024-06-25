@@ -1,107 +1,163 @@
-import React, { useEffect } from 'react';
-import { message } from 'antd';
-import './HighlightComponent.css'; // 你可以在这里定义划线的 CSS 样式
+import { useState, useEffect } from 'react';
+import { Button } from 'antd';
+import { HighlightOutlined, DeleteOutlined } from '@ant-design/icons';
+import './HighlightComponent.css';
 
-const HighlightComponent = ({ notes, setNotes }) => {
-  useEffect(() => {
-    const handleMouseUp = (event) => {
-      const selectedText = window.getSelection().toString().trim();
-      if (selectedText) {
-        const range = window.getSelection().getRangeAt(0);
-        const parentElement = range.commonAncestorContainer.parentElement;
-        const noteId = parentElement.dataset.noteId;
+const HighlightComponent = ({ notes = [], setNotes }) => {
+  const [selectedText, setSelectedText] = useState('');
+  const [selectedRange, setSelectedRange] = useState(null);
+  const [toolbarVisible, setToolbarVisible] = useState(false);
+  const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0 });
+  const [highlightedNote, setHighlightedNote] = useState(null);
 
-        const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-        const existingNote = storedNotes.find(note => note.text === selectedText && note.noteId === noteId);
+  const handleMouseUp = (event) => {
+    const selection = window.getSelection();
+    const selectedText = selection.toString().trim();
 
-        if (!existingNote) {
-          const newNote = {
-            id: Date.now(),
-            title: document.title,
-            time: new Date().toLocaleString(),
-            text: selectedText,
-            snapshot: parentElement.innerHTML,
-            url: window.location.href,
-            range: {
-              startOffset: range.startOffset,
-              endOffset: range.endOffset,
-              parentNode: range.commonAncestorContainer.parentElement.outerHTML
+    if (selectedText) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      let isWithinHighlight = false;
+      let existingNote = null;
+
+      for (const note of notes) {
+        if (note.range) {
+          const noteNode = note.range.commonAncestorContainer.childNodes[0];
+          if (noteNode && noteNode.nodeType === Node.TEXT_NODE) {
+            const noteRange = document.createRange();
+            noteRange.setStart(noteNode, note.range.start);
+            noteRange.setEnd(noteNode, note.range.end);
+            if (
+              range.compareBoundaryPoints(Range.START_TO_END, noteRange) >= 0 &&
+              range.compareBoundaryPoints(Range.END_TO_START, noteRange) <= 0
+            ) {
+              isWithinHighlight = true;
+              existingNote = note;
+              break;
             }
-          };
-
-          storedNotes.push(newNote);
-          localStorage.setItem('notes', JSON.stringify(storedNotes));
-          setNotes(storedNotes);
-          applyHighlight(newNote);
-          message.success('Note added');
-        } else {
-          showDeleteButton(event.pageX, event.pageY, existingNote);
+          }
         }
       }
-    };
 
-    const showDeleteButton = (x, y, note) => {
-      const deleteButton = document.createElement('button');
-      deleteButton.innerText = '删除';
-      deleteButton.style.backgroundColor = 'red';
-      deleteButton.style.color = 'white';
-      deleteButton.style.position = 'absolute';
-      deleteButton.style.zIndex = 9999;
-      deleteButton.style.top = `${y}px`;
-      deleteButton.style.left = `${x}px`;
+      if (isWithinHighlight) {
+        setHighlightedNote(existingNote);
+        setSelectedText(selectedText);
+        setSelectedRange(range);
+        setToolbarVisible(true);
+        setToolbarPosition({
+          top: rect.top + window.scrollY - 40,
+          left: rect.left + window.scrollX + rect.width / 2 - 50
+        });
+      } else {
+        const overlapsHighlight = Array.from(document.querySelectorAll('.highlight')).some(highlight => {
+          const highlightRange = document.createRange();
+          highlightRange.selectNodeContents(highlight);
+          return range.compareBoundaryPoints(Range.END_TO_START, highlightRange) < 0 &&
+                 range.compareBoundaryPoints(Range.START_TO_END, highlightRange) > 0;
+        });
 
-      deleteButton.addEventListener('click', () => {
-        const updatedNotes = notes.filter(n => n.id !== note.id);
-        localStorage.setItem('notes', JSON.stringify(updatedNotes));
-        setNotes(updatedNotes);
-        removeHighlight(note);
-        message.success('Note deleted');
+        if (!overlapsHighlight) {
+          setSelectedText(selectedText);
+          setSelectedRange(range);
+          setHighlightedNote(null);
+          setToolbarVisible(true);
+          setToolbarPosition({
+            top: rect.top + window.scrollY - 40,
+            left: rect.left + window.scrollX + rect.width / 2 - 50
+          });
+        } else {
+          setToolbarVisible(false);
+        }
+      }
+    } else {
+      setToolbarVisible(false);
+      setHighlightedNote(null);
+    }
+  };
+
+  const addNote = () => {
+    if (selectedText && selectedRange && !highlightedNote) {
+      const newNote = {
+        id: Date.now(),
+        text: selectedText,
+        title: document.title,
+        url: window.location.href,
+        time: new Date().toLocaleString(),
+        range: {
+          start: selectedRange.startOffset,
+          end: selectedRange.endOffset,
+          commonAncestorContainer: selectedRange.commonAncestorContainer,
+        }
+      };
+
+      setNotes(prevNotes => [...prevNotes, newNote]);
+
+      const span = document.createElement('span');
+      span.className = 'highlight';
+      span.textContent = selectedText;
+      selectedRange.deleteContents();
+      selectedRange.insertNode(span);
+
+      setToolbarVisible(false);
+    }
+  };
+
+  const removeHighlight = () => {
+    if (highlightedNote) {
+      const highlightElements = document.querySelectorAll('.highlight');
+      highlightElements.forEach(element => {
+        if (element.textContent === highlightedNote.text) {
+          const parent = element.parentNode;
+          while (element.firstChild) {
+            parent.insertBefore(element.firstChild, element);
+          }
+          parent.removeChild(element);
+        }
       });
 
-      document.body.appendChild(deleteButton);
-    };
+      setNotes(prevNotes => prevNotes.filter(note => note.id !== highlightedNote.id));
+      setToolbarVisible(false);
+      setHighlightedNote(null);
+    }
+  };
 
-    const applyHighlight = (note) => {
-      const parentNode = document.createElement('div');
-      parentNode.innerHTML = note.range.parentNode;
-      const parentElement = document.body.querySelector(parentNode.firstChild.tagName);
-      const range = document.createRange();
-      range.setStart(parentElement.firstChild, note.range.startOffset);
-      range.setEnd(parentElement.firstChild, note.range.endOffset);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
+  const handleHighlightClick = (event) => {
+    const clickedElement = event.target;
+    if (clickedElement.classList.contains('highlight')) {
+      const clickedText = clickedElement.textContent;
+      const clickedNote = notes.find(note => note.text === clickedText);
+      if (clickedNote) {
+        setHighlightedNote(clickedNote);
+        const rect = clickedElement.getBoundingClientRect();
+        setToolbarVisible(true);
+        setToolbarPosition({
+          top: rect.top + window.scrollY - 40,
+          left: rect.left + window.scrollX + rect.width / 2 - 50
+        });
+      }
+    }
+  };
 
-      document.execCommand('hiliteColor', false, '#0EB4D3'); // 主题色
-      selection.removeAllRanges();
-    };
-
-    const removeHighlight = (note) => {
-      const parentNode = document.createElement('div');
-      parentNode.innerHTML = note.range.parentNode;
-      const parentElement = document.body.querySelector(parentNode.firstChild.tagName);
-      const range = document.createRange();
-      range.setStart(parentElement.firstChild, note.range.startOffset);
-      range.setEnd(parentElement.firstChild, note.range.endOffset);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      document.execCommand('removeFormat');
-      selection.removeAllRanges();
-    };
-
-    const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
-    storedNotes.forEach(note => applyHighlight(note));
-
+  useEffect(() => {
     document.addEventListener('mouseup', handleMouseUp);
-
+    document.addEventListener('click', handleHighlightClick);
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('click', handleHighlightClick);
     };
-  }, [notes, setNotes]);
+  }, [notes]);
 
-  return null;
+  return (
+    <div>
+      {toolbarVisible && (
+        <div className="toolbar" style={{ top: toolbarPosition.top, left: toolbarPosition.left }}>
+          {!highlightedNote && <Button icon={<HighlightOutlined />} onClick={addNote} />}
+          {highlightedNote && <Button icon={<DeleteOutlined />} onClick={removeHighlight} />}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default HighlightComponent;

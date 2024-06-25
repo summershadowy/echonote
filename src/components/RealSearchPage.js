@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Input, Button, Typography, Card } from 'antd';
+import { Input, Button, Typography, Card } from 'antd';  // 确保导入了 Button
 import { BulbOutlined, DownloadOutlined } from '@ant-design/icons';
 import html2canvas from 'html2canvas';
 import './RealSearchPage.css';
 
 const { Title, Text } = Typography;
-const { Search } = Input;
 
 const RealSearchPage = () => {
   const [query, setQuery] = useState('');
@@ -42,54 +41,53 @@ const RealSearchPage = () => {
   };
 
   const handleDownload = (id) => {
-    const element = document.getElementById(`result-card-${id}`);
-    // 隐藏下载按钮
-    const downloadButton = element.querySelector('.result-card-download');
-    downloadButton.style.display = 'none';
+  const element = document.getElementById(`result-card-${id}`);
+  // 隐藏下载按钮
+  const downloadButton = element.querySelector('.result-card-download');
+  downloadButton.style.display = 'none';
 
-    html2canvas(element, { scale: 3 }).then((canvas) => {
-      const imgWidth = canvas.width / 2;
-      const imgHeight = canvas.height / 2;
+  html2canvas(element, { scale: 3 }).then((canvas) => {
+    const imgWidth = canvas.width / 2;
+    const imgHeight = canvas.height / 2;
 
-      const newCanvas = document.createElement('canvas');
-      newCanvas.width = imgWidth;
-      newCanvas.height = imgHeight + 50; // 添加额外的高度用于显示宣传语和链接
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = imgWidth;
+    newCanvas.height = imgHeight + 50; // 添加额外的高度用于显示宣传语和链接
 
-      const ctx = newCanvas.getContext('2d');
-      ctx.fillStyle = "#fff";
-      ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
-      ctx.drawImage(canvas, 0, 0, imgWidth, imgHeight);
+    const ctx = newCanvas.getContext('2d');
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, newCanvas.width, newCanvas.height);
+    ctx.drawImage(canvas, 0, 0, imgWidth, imgHeight);
 
-      ctx.fillStyle = "#333";
-      ctx.font = "24px Arial";
-      ctx.fillText("搜个人笔记，用锦囊妙记", 10, imgHeight + 30);
-      ctx.fillStyle = "#0EB4D3";
-      ctx.textAlign = "right";
-      ctx.fillText("https://example.com", imgWidth - 10, imgHeight + 30); // 控制链接位置在卡片内，贴着右侧边框
+    ctx.fillStyle = "#333";
+    ctx.font = "24px Arial";
+    ctx.fillText("搜个人笔记，用锦囊妙记", 10, imgHeight + 30);
+    ctx.fillStyle = "#0EB4D3";
+    ctx.textAlign = "right";
+    ctx.fillText("https://example.com", imgWidth - 10, imgHeight + 30); // 控制链接位置在卡片内，贴着右侧边框
 
-      const link = document.createElement('a');
-      link.download = `result-${id}.png`;
-      link.href = newCanvas.toDataURL('image/png');
-      link.click();
-    }).finally(() => {
-      // 恢复下载按钮
-      downloadButton.style.display = 'inline';
-    });
-  };
+    const link = document.createElement('a');
+    link.download = `result-${id}.png`;
+    link.href = newCanvas.toDataURL('image/png');
+    link.click();
+  }).finally(() => {
+    // 恢复下载按钮
+    downloadButton.style.display = 'inline';
+  });
+};
 
   return (
     <div className="real-search-container">
       <Title className="search-title">锦囊妙记 Note Echo</Title>
       <div className="search-bar">
-        <Search
+        <Input
           placeholder="输入搜索内容"
-          enterButton="搜索"
-          size="middle"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onSearch={handleSearch}
-          style={{ maxWidth: '600px', margin: '0 auto' }}
+          onPressEnter={() => handleSearch(query)}
+          className="search-input"
         />
+        <Button type="primary" className="search-button" onClick={() => handleSearch(query)}>搜索</Button>
       </div>
       <div className="results-container">
         {results.map(result => (
