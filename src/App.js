@@ -10,11 +10,16 @@ import HighlightComponent from './components/HighlightComponent';
 
 import './theme-overrides.css'; // 引入覆盖样式
 
-
-
 const { Header, Content } = Layout;
 
 function App() {
+  const [notes, setNotes] = useState([]);
+
+  useEffect(() => {
+    const storedNotes = JSON.parse(localStorage.getItem('notes')) || [];
+    setNotes(storedNotes);
+  }, []);
+
   return (
     <Router>
       <Layout className="layout">
@@ -30,11 +35,11 @@ function App() {
         </Header>
         <Content style={{ padding: '0 50px', background: '#fff' }}>
           <div className="site-layout-content">
-            <HighlightComponent /> {/* 在所有页面上启用划线功能 */}
+            <HighlightComponent notes={notes} setNotes={setNotes} />
             <Routes>
               <Route path="/real-search" element={<RealSearchPage />} />
               <Route path="/read-article" element={<ReadArticlePage />} />
-              <Route path="/notes-library" element={<NotesLibraryPage />} />
+              <Route path="/notes-library" element={<NotesLibraryPage notes={notes} setNotes={setNotes} />} />
               <Route path="/" element={<SearchPage />} />
             </Routes>
           </div>
