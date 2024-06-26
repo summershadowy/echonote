@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import 'antd/dist/antd.less'; // 使用 less 文件
@@ -13,6 +13,8 @@ import './theme-overrides.css'; // 引入覆盖样式
 const { Header, Content } = Layout;
 
 function App() {
+  const [notes, setNotes] = useState([]);
+
   return (
     <Router>
       <Layout className="layout">
@@ -31,12 +33,13 @@ function App() {
             <Routes>
               <Route path="/real-search" element={<RealSearchPage />} />
               <Route path="/read-article" element={<ReadArticlePage />} />
-              <Route path="/notes-library" element={<NotesLibraryPage />} />
+              <Route path="/notes-library" element={<NotesLibraryPage notes={notes} setNotes={setNotes} />} />
               <Route path="/" element={<SearchPage />} />
             </Routes>
           </div>
         </Content>
       </Layout>
+      <HighlightComponent notes={notes} setNotes={setNotes} />
     </Router>
   );
 }
