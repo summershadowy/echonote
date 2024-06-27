@@ -1,6 +1,20 @@
 const CracoLessPlugin = require('craco-less');
 
 module.exports = {
+  webpack: {
+    configure: (webpackConfig, { env, paths }) => {
+      webpackConfig.module.rules.push({
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+        exclude: [
+          /node_modules\/antd\/dist\/antd\.css/
+        ],
+      });
+
+      return webpackConfig;
+    },
+  },
   plugins: [
     {
       plugin: CracoLessPlugin,

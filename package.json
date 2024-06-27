@@ -6,8 +6,11 @@
     "@ant-design/icons": "^4.6.2",
     "@craco/craco": "^7.1.0",
     "antd": "^4.24.16",
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
     "craco-less": "^3.0.1",
     "dom-to-image": "^2.6.0",
+    "express": "^4.19.2",
     "html2canvas": "^1.4.1",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
@@ -44,6 +47,12 @@
     ]
   },
   "devDependencies": {
-    "react-app-rewired": "^2.2.1"
-  }
+    "react-app-rewired": "^2.2.1",
+    "source-map-loader": "^5.0.0"
+  },
+  "main": "config-overrides.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
