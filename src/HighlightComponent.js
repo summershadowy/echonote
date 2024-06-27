@@ -9,40 +9,7 @@ const HighlightComponent = ({ notes, setNotes }) => {
   const [toolbarVisible, setToolbarVisible] = useState(false);
   const [toolbarPosition, setToolbarPosition] = useState({ top: 0, left: 0 });
 
-  const sampleNotes = [
-    {
-      id: 1,
-      title: '示例文章 1',
-      time: '2024-06-11 10:30',
-      text: '这是划线的笔记内容示例 1。',
-      url: 'https://example.com/article1'
-    },
-    {
-      id: 2,
-      title: '示例文章 2',
-      time: '2024-06-12 14:20',
-      text: '这是划线的笔记内容示例 2。',
-      url: 'https://example.com/article2'
-    },
-    {
-      id: 3,
-      title: '示例文章 3',
-      time: '2024-06-13 09:15',
-      text: '这是划线的笔记内容示例 3。',
-      url: 'https://example.com/article3'
-    }
-  ];
-
-  useEffect(() => {
-    setNotes(prevNotes => {
-      if (prevNotes.length === 0) {
-        return sampleNotes;
-      }
-      return prevNotes;
-    });
-  }, [setNotes]);
-
-  const handleMouseUp = () => {
+  const handleMouseUp = (event) => {
     const selection = window.getSelection();
     const selectedText = selection.toString().trim();
 
@@ -50,7 +17,6 @@ const HighlightComponent = ({ notes, setNotes }) => {
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
 
-      // Check if any part of the selection overlaps with existing highlights
       const overlapsHighlight = Array.from(document.querySelectorAll('.highlight')).some(highlight => {
         const highlightRange = document.createRange();
         highlightRange.selectNodeContents(highlight);
@@ -64,9 +30,8 @@ const HighlightComponent = ({ notes, setNotes }) => {
         setToolbarVisible(true);
         setToolbarPosition({
           top: rect.top + window.scrollY - 40,
-          left: rect.left + window.scrollX + rect.width / 2 - 25 // Adjusted to center the toolbar
+          left: rect.left + window.scrollX + rect.width / 2 - 50
         });
-        console.log('Selection made:', selectedText); // Debugging line
       } else {
         setToolbarVisible(false);
       }
@@ -75,36 +40,44 @@ const HighlightComponent = ({ notes, setNotes }) => {
     }
   };
 
-  const addNote = () => {
+  const addNote = async () => {
     if (selectedText && selectedRange) {
       const newNote = {
-        id: Date.now(),
         text: selectedText,
         title: document.title,
         url: window.location.href,
-        time: new Date().toLocaleString(),
-        range: {
-          start: selectedRange.startOffset,
-          end: selectedRange.endOffset,
-          commonAncestorContainer: selectedRange.commonAncestorContainer,
-        }
+        time: new Date().toLocaleString()
       };
 
-      console.log('Adding note:', newNote); // Debugging line
+      console.log('Sending note to server:', newNote);
 
-      setNotes(prevNotes => {
-        const updatedNotes = [...prevNotes, newNote];
-        console.log('Updated notes:', updatedNotes); // Debugging line
-        return updatedNotes;
-      });
+      try {
+        const response = await fetch('http://localhost:3001/api/notes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newNote)
+        });
+        const result = await response.json();
+        console.log('Note added:', result);
 
-      const span = document.createElement('span');
-      span.className = 'highlight';
-      span.textContent = selectedText;
-      selectedRange.deleteContents();
-      selectedRange.insertNode(span);
+        setNotes(prevNotes => {
+          const updatedNotes = [...prevNotes, result];
+          console.log('Updated notes:', updatedNotes);
+          return updatedNotes;
+        });
 
-      setToolbarVisible(false);
+        const span = document.createElement('span');
+        span.className = 'highlight';
+        span.textContent = selectedText;
+        selectedRange.deleteContents();
+        selectedRange.insertNode(span);
+
+        setToolbarVisible(false);
+      } catch (error) {
+        console.error('Error adding note:', error);
+      }
     }
   };
 
@@ -113,7 +86,7 @@ const HighlightComponent = ({ notes, setNotes }) => {
     return () => {
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [notes]);
+  }, []);
 
   return (
     <div>
